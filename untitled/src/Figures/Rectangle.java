@@ -54,7 +54,7 @@ public class Rectangle implements Figures.Figure {
     }
 
     private boolean isInside (RealPoint point) {
-        return (point.getX() > this.p1.getX() && point.getY() > this.p1.getX() &&
+        return (point.getX() > this.p1.getX() && point.getY() > this.p1.getY() &&
                 point.getX() < this.p3.getX() && point.getY() < this.p3.getY());
     }
 
@@ -174,50 +174,42 @@ public class Rectangle implements Figures.Figure {
 
         if ((isCrossed(this.p1.getX(), this.p1.getY(), this.p3.getY(), other.p1.getY(),other.p1.getX(), other.p3.getX()))&&
                 isCrossed(this.p1.getX(), this.p1.getY(),this.p3.getY(),other.p3.getY(),other.p1.getX(),other.p3.getX())) { //isInside(other.p1)&&!isInside(other.p3)&&isInside(new RealPoint(other.p1.getX(),other.p3.getY()))&&!isInside(new RealPoint(other.p3.getX(),other.p1.getY()))
-            isChanged = true;
             return new Rectangle(new RealPoint(this.p1.getX(),other.p1.getY()),other.p3);
         } else { //1
             if ((isCrossed(this.p3.getX(), this.p1.getY(), this.p3.getY(), other.p1.getY(),other.p1.getX(), other.p3.getX()))&&
                     isCrossed(this.p3.getX(), this.p1.getY(),this.p3.getY(),other.p3.getY(),other.p1.getX(),other.p3.getX())) {//isInside(other.p1)&&!isInside(other.p3)&&!isInside(new RealPoint(other.p1.getX(),other.p3.getY()))&&isInside(new RealPoint(other.p3.getX(),other.p1.getY()))
-                isChanged = true;
                 return new Rectangle(other.p1,new RealPoint(this.p3.getX(),other.p3.getY()));
             } // горизонтально
         }
         if ((isCrossed(other.p1.getX(), other.p1.getY(), other.p3.getY(), this.p1.getY(),this.p1.getX(),this.p3.getX()))&&
                 isCrossed(other.p3.getX(), other.p1.getY(),other.p3.getY(),this.p1.getY(),this.p1.getX(),this.p3.getX())) { //isInside(other.p1)&&!isInside(other.p3)&&isInside(new RealPoint(other.p1.getX(),other.p3.getY()))&&!isInside(new RealPoint(other.p3.getX(),other.p1.getY()))
-            isChanged = true;
             return new Rectangle(new RealPoint(other.p1.getX(),this.p1.getY()),other.p3);
         } else {
             if ((isCrossed(other.p1.getX(), other.p1.getY(), other.p3.getY(), this.p3.getY(),this.p1.getX(),this.p3.getX()))&&
                     isCrossed(other.p3.getX(), other.p1.getY(),other.p3.getY(),this.p3.getY(),this.p1.getX(),this.p3.getX())) {//isInside(other.p1)&&!isInside(other.p3)&&!isInside(new RealPoint(other.p1.getX(),other.p3.getY()))&&isInside(new RealPoint(other.p3.getX(),other.p1.getY()))
-                isChanged = true;
                 return new Rectangle(other.p1,new RealPoint(other.p3.getX(),this.p3.getY()));
             } // вертикально
         }
 
-        return other; //done, idk how to remove that bugs
+        return twoCornerInRect2(other); //done, idk how to remove that bugs
     }
 
     private Rectangle twoCornerInRect2 (Rectangle other) {
         if ((isCrossed(other.p1.getX(), other.p1.getY(), other.p3.getY(), this.p1.getY(),this.p1.getX(), this.p3.getX()))&&
                 isCrossed(other.p1.getX(), other.p1.getY(),other.p3.getY(),this.p3.getY(),this.p1.getX(),this.p3.getX())) { //isInside(other.p1)&&!isInside(other.p3)&&isInside(new RealPoint(other.p1.getX(),other.p3.getY()))&&!isInside(new RealPoint(other.p3.getX(),other.p1.getY()))
-            isChanged = true;
             return new Rectangle(new RealPoint(other.p1.getX(),this.p1.getY()),this.p3);
         } else { //1
             if ((isCrossed(other.p3.getX(), other.p1.getY(), other.p3.getY(), this.p1.getY(),this.p1.getX(), this.p3.getX()))&&
                     isCrossed(other.p3.getX(), other.p1.getY(),other.p3.getY(),this.p3.getY(),this.p1.getX(),this.p3.getX())) {//isInside(other.p1)&&!isInside(other.p3)&&!isInside(new RealPoint(other.p1.getX(),other.p3.getY()))&&isInside(new RealPoint(other.p3.getX(),other.p1.getY()))
-                isChanged = true;
                 return new Rectangle(this.p1,new RealPoint(other.p3.getX(),this.p3.getY()));
             } // горизонтально
         }
-        if ((isCrossed(this.p1.getX(), this.p1.getY(), this.p3.getY(), other.p1.getY(),other.p1.getX(),other.p3.getX()))&&
-                isCrossed(this.p3.getX(), this.p1.getY(),this.p3.getY(),other.p1.getY(),other.p1.getX(),other.p3.getX())) { //isInside(other.p1)&&!isInside(other.p3)&&isInside(new RealPoint(other.p1.getX(),other.p3.getY()))&&!isInside(new RealPoint(other.p3.getX(),other.p1.getY()))
-            isChanged = true;
+        if ((isCrossed(this.p1.getX(), this.p1.getY(), this.p3.getY(), other.p1.getY(),other.p1.getX(),other.p3.getX()-1))&&
+                isCrossed(this.p3.getX(), this.p1.getY(),this.p3.getY(),other.p1.getY(),other.p1.getX(),other.p3.getX()-1)) { //isInside(other.p1)&&!isInside(other.p3)&&isInside(new RealPoint(other.p1.getX(),other.p3.getY()))&&!isInside(new RealPoint(other.p3.getX(),other.p1.getY()))
             return new Rectangle(new RealPoint(this.p1.getX(),other.p1.getY()),this.p3);
         } else {
             if ((isCrossed(this.p1.getX(), this.p1.getY(), this.p3.getY(), other.p3.getY(),other.p1.getX(),other.p3.getX()))&&
                     isCrossed(this.p3.getX(), this.p1.getY(),this.p3.getY(),other.p3.getY(),other.p1.getX(),other.p3.getX())) {//isInside(other.p1)&&!isInside(other.p3)&&!isInside(new RealPoint(other.p1.getX(),other.p3.getY()))&&isInside(new RealPoint(other.p3.getX(),other.p1.getY()))
-                isChanged = true;
                 return new Rectangle(this.p1,new RealPoint(this.p3.getX(),other.p3.getY()));
             } // вертикально
         }
@@ -245,15 +237,7 @@ public class Rectangle implements Figures.Figure {
         }
         return other;
     }
-/*
-    private Rectangle rectInside (Rectangle other) {
-        Rectangle outside = this;
-        Rectangle inside = other;
-        if (isInside(inside.p1,outside) && isInside(inside.p3,outside) && isInside(new RealPoint(inside.p1.getX(),inside.p3.getY()),outside) && isInside(new RealPoint(inside.p3.getX(),inside.p1.getY())))
-            return inside;
-        return this;
-    }
-*/
+
     private boolean isCrossed (double ax, double ay1, double ay2, double by, double bx1, double bx2) {
         return ((bx1 < ax && ax < bx2 && ay1 < by && by < ay2));
     }
@@ -264,18 +248,34 @@ public class Rectangle implements Figures.Figure {
 
     public Rectangle intersectWith(Rectangle other) {
 
-        other = cornerInRect(other);
-
+        //other = cornerInRect(other);
+/*
+        if ((isInside(other.p1) && isInside(new RealPoint(other.p1.getX(),other.p3.getY()))) ||
+                (isInside(new RealPoint(other.p1.getX(),other.p3.getY())) && isInside(other.p3)) ||
+                (isInside(other.p3) && isInside(new RealPoint(other.p3.getX(),other.p1.getY()))) ||
+                (isInside(new RealPoint(other.p3.getX(),other.p1.getY())) && isInside(p1)))
         other = twoCornerInRect1(other);
-
-
-
-
-        //other = twoCornerInRectWBugs(other);
+        else
+            other = twoCornerInRect2(other);
+doesnotwork
+*/
+Rectangle check = other;
         other = crossedRect(other);
-        //other = twoCornerInRect(other);
-        //other = rectInside(other);
+        if (!check.equals(other)) return other;
+        other = cornerInRect(other);
+        if (!check.equals(other)) return other;
+        other = twoCornerInRectWBugs(other);
+        if (!check.equals(other)) return other;
+        /*
+        other = twoCornerInRect1(other);
+        if (!check.equals(other)) return other;
         other = twoCornerInRect2(other);
+        if (!check.equals(other)) return other;
+        */
+//по отдельности все работает
+        //other = twoCornerInRectWBugs(other);
+        //other = crossedRect(other);
+        //other = twoCornerInRect1(other);
         return other;
     }
 
